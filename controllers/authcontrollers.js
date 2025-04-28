@@ -3,7 +3,6 @@ const hashPassword = require('../utils/hashPassword');
 const validatePassword = require('../utils/validatePassword');
 const { generateToken } = require('../utils/jwtUtils');
 
-// register
 exports.register = async (req,res) => {
     const { username, email, password } = req.body;
 
@@ -31,7 +30,6 @@ exports.register = async (req,res) => {
     }
 };
 
-// login
 exports.login = async (req,res) => {
     const { username, password } = req.body;
 

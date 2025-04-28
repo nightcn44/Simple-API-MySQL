@@ -8,9 +8,8 @@ const createUserTable = require('./config/userTable');
 require('dotenv').config();
 
 const app = express();
-const PORT = process.env.PORT || 5000;
+const PORT = process.env.PORT;
 
-// check database connection and start server if successful
 async function main() {
   await checkConnection();
   await createUserTable();
@@ -18,18 +17,15 @@ async function main() {
 
 main();
 
-// middleware
 app.use(express.json({ limit: '10mb' }));
 app.use(morgan('dev'));
 app.use(cors());
 
-// error handler middleware
 app.use((err, req, res, next) => {
   console.error(err.stack);
   res.status(500).send('Something went wrong!');
 });
 
-// routes
 readdirSync('./routes').map((i) => {
   try {
     console.log(`Loading route: ${i}`);
@@ -40,10 +36,9 @@ readdirSync('./routes').map((i) => {
 });
 
 app.get('/', (req, res) => {
-  res.send('Hello World');
+  res.send('Hello World!');
 });
 
-// start server
 app.listen(PORT, () => {
-  console.log(`Server is running on http://localhost:${PORT}`);
+  console.log(`Server is running on port ${PORT}`);
 });

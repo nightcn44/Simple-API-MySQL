@@ -1,12 +1,10 @@
 const mysql = require('mysql2/promise');
 
-// load environment variables from .env file if it exists
 require('dotenv').config();
 
-// create connection to database using MySQL2 module with Promises
 const pool = mysql.createPool({
   host: process.env.DB_HOST,
-  port: process.env.DB_PORT || 3306,
+  port: process.env.DB_PORT,
   user: process.env.DB_USER,
   password: process.env.DB_PASSWORD,
   database: process.env.DB_NAME,
@@ -18,9 +16,9 @@ const pool = mysql.createPool({
 async function checkConnection() {
   try {
     await pool.query('SELECT 1');
-    console.log('✅ MySQL connected and ready to use!');
+    console.log('MySQL connected and ready to use!');
   } catch (error) {
-    console.error('❌ MySQL connection failed:', error);
+    console.error('MySQL connection failed:', error);
     process.exit(1);
   }
 }
