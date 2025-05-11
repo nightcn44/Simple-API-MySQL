@@ -4,35 +4,28 @@ const validatePassword = require("../utils/validatePassword");
 const { generateToken } = require("../utils/jwtUtils");
 
 exports.register = async (req, res) => {
-  const { username, email, password } = req.body;
+  const { username, password } = req.body;
 
-  if (!username || !email || !password) {
+  if (!username || !password) {
     return res.status(400).send("All fields are required");
   }
 
   try {
-    const query = "SELECT * FROM users WHERE username = ? OR email = ?";
-    const [existingUsers] = await pool.query(query, [username, email]);
+    const query = "SELECT * FROM users WHERE username = ?";
+    const [existing] = await pool.query(query, [username]);
 
-    if (existingUsers.length > 0) {
-      return res
-        .status(400)
-        .json({ message: "Username or email is already in use" });
+    if (existing.length > 0) {
+      return res.status(400).json({ message: "Username is already in use" });
     }
 
     const hashedPassword = await hashPassword(password);
 
-    const insertQuery =
-      "INSERT INTO users (username, email, password) VALUES (?, ?, ?)";
-    const [result] = await pool.query(insertQuery, [
-      username,
-      email,
-      hashedPassword,
-    ]);
+    const insertQuery = "INSERT INTO users (username, password) VALUES (?, ?)";
+    const [result] = await pool.query(insertQuery, [username, hashedPassword]);
 
     res.status(201).json({ message: "Register success" });
-  } catch (error) {
-    console.error(error);
+  } catch (err) {
+    console.error("Error during registration:", err);
     res.status(500).json("Internal server error");
   }
 };
@@ -64,8 +57,8 @@ exports.login = async (req, res) => {
     const token = generateToken(user);
 
     res.status(200).json({ message: "Login successful", token });
-  } catch (error) {
-    console.error(error);
+  } catch (err) {
+    console.error("Error during login:", err);
     res.status(500).json("Internal server error");
   }
 };
