@@ -1,7 +1,7 @@
 const express = require("express");
 const morgan = require("morgan");
 const cors = require("cors");
-// const { readdirSync } = require('fs');
+const { readdirSync } = require("fs");
 const { checkConnection } = require("./config/db");
 const createUserTable = require("./config/user.table");
 
@@ -22,14 +22,16 @@ app.use((err, req, res, next) => {
   res.status(500).json({ message: "Something went wrong" });
 });
 
-// readdirSync('./routes').map((i) => {
-//   try {
-//     console.log(`Loading route: ${i}`);
-//     app.use('/api', require('./routes/' + i));
-//   } catch (err) {
-//     console.error(`Error loading route ${i}:`, err);
-//   }
-// });
+readdirSync("./routes").map((file) => {
+  if (file.endsWith(".js")) {
+    try {
+      app.use("/api", require("./routes/" + file));
+      console.log(`Loading route: ${file}`);
+    } catch (err) {
+      console.log(`Error loading route ${file}:`, err);
+    }
+  }
+});
 
 app.get("/", (req, res) => {
   res.send("Hello World!");
