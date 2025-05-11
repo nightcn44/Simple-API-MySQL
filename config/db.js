@@ -1,6 +1,6 @@
-const mysql = require('mysql2/promise');
+const mysql = require("mysql2/promise");
 
-require('dotenv').config();
+require("dotenv").config();
 
 const pool = mysql.createPool({
   host: process.env.DB_HOST,
@@ -10,15 +10,15 @@ const pool = mysql.createPool({
   database: process.env.DB_NAME,
   waitForConnections: true,
   connectionLimit: 10,
-  queueLimit: 0
+  queueLimit: 0,
 });
 
 async function checkConnection() {
   try {
-    await pool.query('SELECT 1');
-    console.log('MySQL connected and ready to use!');
-  } catch (error) {
-    console.error('MySQL connection failed:', error);
+    await pool.query("SELECT 1");
+    console.log("MySQL connected and ready to use!");
+  } catch (err) {
+    console.error("MySQL connection failed:", err);
     process.exit(1);
   }
 }

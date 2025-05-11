@@ -2,7 +2,7 @@ const express = require("express");
 const morgan = require("morgan");
 const cors = require("cors");
 // const { readdirSync } = require('fs');
-// const { checkConnection } = require('./config/db');
+const { checkConnection } = require('./config/db');
 // const createUserTable = require('./config/userTable');
 
 require("dotenv").config();
@@ -10,12 +10,7 @@ require("dotenv").config();
 const app = express();
 const PORT = process.env.PORT || 5000;
 
-// async function main() {
-//   await checkConnection();
-//   await createUserTable();
-// }
-
-// main();
+checkConnection();
 
 app.use(express.json({ limit: "10mb" }));
 app.use(morgan("dev"));
