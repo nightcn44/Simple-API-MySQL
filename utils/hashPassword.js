@@ -1,11 +1,12 @@
-const bcrypt = require('bcrypt');
+const bcrypt = require("bcryptjs");
 
 const hashPassword = async (password) => {
   try {
-    const saltRounds = 10;
-    return bcrypt.hash(password, saltRounds);
+    const hashed = await bcrypt.hash(password, 10);
+    return hashed;
   } catch (err) {
-    throw new Error('Error hashing password: ' + err);
+    console.error("Hashing Error:", err.message);
+    throw new Error("Error hashing password" + err.message);
   }
 };
 

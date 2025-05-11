@@ -1,11 +1,13 @@
-const bcrypt = require('bcrypt');
+const bcrypt = require("bcryptjs");
 
 const validatePassword = async (password, hashedPassword) => {
-    try {
-        return bcrypt.compare(password, hashedPassword);
-    } catch (err) {
-        throw new Error('Error validating password: ' + err);
-    }
+  try {
+    const isMatch = await bcrypt.compare(password, hashedPassword);
+    return isMatch;
+  } catch (err) {
+    console.error("", err.message);
+    throw new Error("Error validating password: " + err.message);
+  }
 };
 
 module.exports = validatePassword;
