@@ -3,7 +3,7 @@ const morgan = require("morgan");
 const cors = require("cors");
 // const { readdirSync } = require('fs');
 const { checkConnection } = require("./config/db");
-const createUserTable = require("./config/userTable");
+const createUserTable = require("./config/user.table");
 
 require("dotenv").config();
 
