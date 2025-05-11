@@ -9,4 +9,9 @@ router.get('/ur/:id', authMiddleware, User.getUserById);
 router.put('/ur/:id', authMiddleware, User.updateUserById);
 router.delete('/ur/:id', authMiddleware, User.deleteUserById);
 
+const Auth = require('../controllers/authcontrollers');
+
+router.post('/register', Auth.register);
+router.post('/login', Auth.login);
+
 module.exports = router;
