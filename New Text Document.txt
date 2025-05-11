@@ -1,5 +1,0 @@
-npm init -y
-
-npm install express nodemon morgan cors mysql2 mongoose jsonwebtoken bcryptjs bcrypt dotenv prisma @prisma/client sequelize
-
-Node.js Express.js mysql
